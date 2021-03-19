@@ -1,8 +1,16 @@
 import { handleResponse, handleError } from './apiUtils';
 const baseUrl = process.env.API_URL ;
-export function getUsers(fields,browse,isStaticWebPages) {
+export function getUsers(fields,browse) {
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ SearchText: fields.SearchText, findURL: fields.FindURL, searchEngineTypes: browse  })
+  };
   debugger
-  const url = baseUrl + 'api/SearchEngine?searchText=' + fields.SearchText + '&findURL=' + fields.FindURL + '&searchEngineTypes='+browse+'&staticPages='+isStaticWebPages.checked;
-  return fetch(url).then(handleResponse).catch(handleError);
+  const url = baseUrl + 'api/SearchEngine'
+  return fetch(url, requestOptions)
+    .then(handleResponse)
+    .catch(handleError)
   
 }

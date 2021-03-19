@@ -3,7 +3,7 @@ import * as usersApi from '../../api/userApi';
 import { beginApiCall, apiCallError } from './apiStatusActions';
 
 export function loadUsersuccess(output,isFetching) {
-  debugger;
+  
   return {
     type: types.LOAD_USERS_SUCCESS,
     output,
@@ -11,21 +11,22 @@ export function loadUsersuccess(output,isFetching) {
   };
 }
 
-export function GetResults(fields,browse,isFetching,isStaticWebPages) {
-  debugger;
+export function GetResults(fields,browse,isFetching) {
+  
   return function (dispatch) {
-    debugger;
+    
     dispatch(beginApiCall());
     return usersApi
-      .getUsers(fields,browse,isStaticWebPages)
+      .getUsers(fields,browse)
       .then((output) => {
-        debugger;
+        
         isFetching=false;
         dispatch(loadUsersuccess(output,isFetching));
       })
       .catch((error) => {
-        debugger;
-        dispatch(apiCallError(error));
+        
+        isFetching=false;
+        dispatch(apiCallError(error,isFetching));
         throw error;
       });
   };

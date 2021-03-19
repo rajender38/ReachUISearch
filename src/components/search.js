@@ -3,8 +3,8 @@ import TextInput from './common/TextInput';
 import CheckBox from './common/CheckBox';
 import { Table } from 'react-bootstrap';
 
-export default function Login({ fields, checkboxValue, errors, onValidate, onChange, onClick, result,isStaticWebPages,onClickStatic }) {
-  debugger;
+export default function Search({ fields, checkboxValue, errors, onValidate, onChange, result }) {
+  
   return (
     <form onSubmit={onValidate}>
 <div style={{opacity:result.isFetching?0.5:1}}>
@@ -50,7 +50,7 @@ export default function Login({ fields, checkboxValue, errors, onValidate, onCha
                 {
 
                   checkboxValue.Browser.map((browser) => {
-                    return (<CheckBox onClick={onClick}  {...browser} />)
+                    return (<CheckBox key={browser.id} onChange={onChange}  {...browser} />)
                   })
                 }
               </ul>
@@ -67,16 +67,6 @@ export default function Login({ fields, checkboxValue, errors, onValidate, onCha
           <tr>
             <td></td>
             <td colSpan="2">
-                <CheckBox onClick={onClickStatic}  name='FindURL'
-                label='Is info track static pages?'
-                value={isStaticWebPages}  />
-            </td>
-            <td></td>
-          </tr>
-
-          <tr>
-            <td></td>
-            <td colSpan="2">
               <button type='submit' className='btn btn-primary'>
                 Submit
             </button>
@@ -84,7 +74,7 @@ export default function Login({ fields, checkboxValue, errors, onValidate, onCha
             <td></td>
           </tr>
           <tr><td></td><td colSpan="2">
-            <label htmlFor="lbloutput">{result.output===[]?result.output:result.output.output}</label>
+            <label htmlFor="lbloutput">{result.output===[]?result.output:result.output}</label>
           </td><td></td></tr>
         </tbody>
       </Table>

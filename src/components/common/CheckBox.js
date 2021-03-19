@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 // import { Checkbox } from "react-bootstrap";
 
-const CheckBox = ({ name, label, onClick, placeholder, value, isChecked, error }) => {
+const CheckBox = ({ name, label, onChange, placeholder, value, isChecked, error }) => {
     return (
         <div >
 
@@ -14,7 +14,7 @@ const CheckBox = ({ name, label, onClick, placeholder, value, isChecked, error }
                     className="form-control"
                     placeholder={placeholder}
                     value={value}
-                    onClick={onClick}
+                    onChange={onChange}
                     checked={isChecked}
                     style={{ 'width': '20% !important' }}
                 />
@@ -27,7 +27,7 @@ const CheckBox = ({ name, label, onClick, placeholder, value, isChecked, error }
 CheckBox.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.string,
     error: PropTypes.string

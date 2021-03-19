@@ -1,7 +1,7 @@
 export async function handleResponse(response) {
-  debugger;
+  
   if (response.type === 'opaque' || response.ok)
-    return response.json();
+    return response.text();
   if (response.status === 400) {
     // So, a server-side validation error occurred.
     // Server side validation returns a string error message, so parse as text instead of json.

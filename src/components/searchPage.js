@@ -5,34 +5,22 @@ import SearchForm from './search';
 import { GetResults } from '../redux/actions/userActions';
 
 export function SearchPage({ output,isFetching, GetResults, ...props }) {
-  debugger;
+  
   const [fields, setFields] = useState({ ...props.fields });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState([]);
   const [checkboxValue, setCheckbox] = useState({
 
     Browser: [
-      { id: 1, name: "Google", label: "Select Google", value: "Google", isChecked: true },
-      { id: 2, name: "Bing", label: "Select Bing", value: "Bing", isChecked: false },
+      { id: 1, name: "Google", label: "Select Google", value: "GoogleEngine", isChecked: true },
+      { id: 2, name: "Bing", label: "Select Bing", value: "BingEngine", isChecked: false },
     ]
 
   });
-  const[isStaticWebPages,setIsStaticPage]=useState({});
 
   useEffect(() => {
-    debugger;
-
     setFields({ ...props.fields });
 
   }, [props.fields]);
-
-  function handleChange(event) {
-    debugger;
-    const { name, value } = event.target;
-    setFields((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-  }
 
   function formIsValid() {
     const { SearchText, FindURL } = fields;
@@ -44,34 +32,40 @@ export function SearchPage({ output,isFetching, GetResults, ...props }) {
   }
 
   function handleValidate(event) {
-    debugger;
+    
     event.preventDefault();
     if (!formIsValid()) return;
-    debugger;
+    
     const browse = checkboxValue.Browser
       .filter((e) => e.isChecked === true)
       .map(e => e.value)
 
-    GetResults(fields,browse[0],true,isStaticWebPages).catch((e) => {
+    GetResults(fields,browse[0],true).catch((e) => {
       alert('error' + e);
     });
     
   }
 
-  function onClick(event) {
-    debugger;
-    let browser = checkboxValue.Browser
-    browser.forEach(item => {
-      item.isChecked=false;
-      if (item.value === event.target.value)
-        item.isChecked = event.target.checked
-    })
-    setCheckbox({ Browser: browser })
-  }
-  function onClickStatic(event) {
-    debugger;
-    const checked = event.target.checked;
-    setIsStaticPage({ checked });
+  function handleChange(event) {
+    
+    
+    const { name, value,type,checked } = event.target;
+    if(type==="checkbox")
+    {
+      let browser = checkboxValue.Browser
+      browser.forEach(item => {
+        item.isChecked=false;
+        if (item.value === value)
+          item.isChecked = checked
+      })
+      setCheckbox({ Browser: browser })
+    }
+    else{
+      setFields((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+      }));
+    }
   }
 
   return (
@@ -80,12 +74,9 @@ export function SearchPage({ output,isFetching, GetResults, ...props }) {
       checkboxValue={checkboxValue}
       errors={errors}
       onChange={handleChange}
-      onClick={onClick}
       onValidate={handleValidate}
       result={output}
       isFetching={isFetching}
-      isStaticWebPages={isStaticWebPages}
-      onClickStatic={onClickStatic}
     />
   );
 }
@@ -95,8 +86,8 @@ SearchPage.propTypes = {
   GetResults: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state, ownProps) {
-  debugger;
+function mapStateToProps(state) {
+  
   return {
     output: state.output,
     isFetching:state.isFetching
